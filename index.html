@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Traffic Control Dashboard</title>
+
+<style>
+
+body{
+background:#0f172a;
+color:white;
+font-family:Segoe UI;
+text-align:center;
+margin:0;
+}
+
+header{
+background:#020617;
+padding:20px;
+font-size:28px;
+font-weight:bold;
+letter-spacing:1px;
+}
+
+.container{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:40px;
+gap:25px;
+}
+
+.lane{
+background:#1e293b;
+padding:25px;
+width:200px;
+border-radius:12px;
+box-shadow:0 10px 20px rgba(0,0,0,0.5);
+transition:0.3s;
+}
+
+.lane:hover{
+transform:scale(1.05);
+}
+
+.lane h2{
+margin:0;
+margin-bottom:10px;
+}
+
+.count{
+font-size:32px;
+font-weight:bold;
+color:#38bdf8;
+}
+
+.signal{
+margin-top:40px;
+font-size:26px;
+}
+
+.green{
+color:#22c55e;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+Intelligent Traffic Density Control
+</header>
+
+<div class="container">
+
+<div class="lane">
+<h2>Lane 1</h2>
+<div class="count" id="lane1">0</div>
+</div>
+
+<div class="lane">
+<h2>Lane 2</h2>
+<div class="count" id="lane2">0</div>
+</div>
+
+<div class="lane">
+<h2>Lane 3</h2>
+<div class="count" id="lane3">0</div>
+</div>
+
+<div class="lane">
+<h2>Lane 4</h2>
+<div class="count" id="lane4">0</div>
+</div>
+
+</div>
+
+<div class="signal">
+Green Signal ? <span id="greenLane" class="green">Lane 0</span>
+</div>
+
+<script>
+
+function updateTraffic(){
+
+fetch("/data")
+.then(response => response.json())
+.then(data => {
+
+document.getElementById("lane1").innerText = data.lane1;
+document.getElementById("lane2").innerText = data.lane2;
+document.getElementById("lane3").innerText = data.lane3;
+document.getElementById("lane4").innerText = data.lane4;
+
+document.getElementById("greenLane").innerText = "Lane " + data.green;
+
+})
+.catch(error => console.log(error));
+
+}
+
+setInterval(updateTraffic,2000);
+
+</script>
+
+</body>
+
+</html>
